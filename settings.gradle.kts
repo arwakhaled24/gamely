@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "TheMotherOfGames"
+rootProject.name = "gamely"
 include(":app")
  
