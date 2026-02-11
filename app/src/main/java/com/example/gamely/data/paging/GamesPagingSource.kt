@@ -2,16 +2,17 @@ package com.example.gamely.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.example.gamely.data.remote.GamesKtorService
 import com.example.gamely.domain.model.Game
-import com.example.gamely.domain.repositories.GamesRepository
 
 class GamesPagingSource(
-    private val repository: GamesRepository
+    private val apiService: GamesKtorService
 ) : PagingSource<Int, Game>() {
-
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Game> {
         val page = params.key ?: 1
-        return repository.getGames(page).fold(
+        return apiService.getGames(page).mapCatching { response ->
+            response.results.map { it.toGame() }
+        }.fold(
             onSuccess = { games ->
                 LoadResult.Page(
                     data = games,

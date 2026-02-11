@@ -14,7 +14,6 @@ import kotlinx.coroutines.launch
 class GameDetailsViewModel(
     private val getGameDetailsUseCase: GetGameDetailsUseCase
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(GameDetailsState())
     val uiState: StateFlow<GameDetailsState> = _uiState.asStateFlow()
 
@@ -23,21 +22,13 @@ class GameDetailsViewModel(
     init {
         handleAction()
     }
-
-    fun initialize(gameId: Int) {
-        if (_uiState.value.gameId != gameId) {
-            sendAction(GameDetailsAction.LoadGameDetails(gameId))
-        }
-    }
-
     fun sendAction(action: GameDetailsAction) {
-        viewModelScope.launch(Dispatchers.Main.immediate) {
+        viewModelScope.launch(Dispatchers.Main) {
             actionFlow.emit(action)
         }
     }
-
     private fun handleAction() {
-        viewModelScope.launch(Dispatchers.Main.immediate) {
+        viewModelScope.launch(Dispatchers.Main) {
             actionFlow.collect { action ->
                 when (action) {
                     is GameDetailsAction.LoadGameDetails -> loadGameDetails(action.gameId)

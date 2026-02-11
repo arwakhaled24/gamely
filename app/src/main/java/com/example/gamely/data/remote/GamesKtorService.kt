@@ -21,6 +21,7 @@ class GamesKtorService(private val client: HttpClient) {
             Result.failure(e)
         }
     }
+
     suspend fun getGameDetails(gameId: Int): Result<GameDetailsResponse> {
         return try {
             val url = "${BuildConfig.BASE_URL}/${BuildConfig.GAME_DETAILS_ENDPOINT}/$gameId"

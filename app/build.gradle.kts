@@ -20,7 +20,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        
+
 
         buildConfigField("String", "BASE_URL", "\"https://api.rawg.io/api\"")
         buildConfigField("String", "API_KEY", "\"47e76ee2cca6467ba274d212fe930837\"")
@@ -30,18 +30,14 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", "\"https://api.rawg.io/api\"")
-            buildConfigField("String", "API_KEY", "\"47e76ee2cca6467ba274d212fe930837\"")
         }
-        
+
         release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "BASE_URL", "\"https://api.rawg.io/api\"")
-            buildConfigField("String", "API_KEY", "\"47e76ee2cca6467ba274d212fe930837\"")
         }
     }
     compileOptions {
@@ -71,6 +67,7 @@ dependencies {
     implementation(libs.androidx.compose.runtime)
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -80,7 +77,6 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
     val ktorVersion = "2.3.7"
-    implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-cio:$ktorVersion")
     implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
@@ -101,6 +97,13 @@ dependencies {
     //paging 3
     implementation("androidx.paging:paging-runtime:3.3.5")
     implementation("androidx.paging:paging-compose:3.3.5")
+
+    //testing
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.hamcrest:hamcrest:2.2")
+    testImplementation("io.mockk:mockk:1.13.8")
 
 
 }

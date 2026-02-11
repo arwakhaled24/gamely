@@ -12,30 +12,16 @@ import kotlinx.coroutines.flow.Flow
 
 class GameRepositoryImpl(private val apiService: GamesKtorService) : GamesRepository {
 
-    override suspend fun getGames(page: Int): Result<List<Game>> {
-        return apiService.getGames(page).mapCatching { response ->
-            response.results.map { it.toGame() }
-        }
-    }
-
-    override fun getGamesPaginated(
-        pageSize: Int,
-        enablePlaceholders: Boolean,
-        prefetchDistance: Int,
-        initialLoadSize: Int,
-        maxCacheSize: Int
-    ): Flow<PagingData<Game>> {
+    override fun getGamesPaginated(): Flow<PagingData<Game>> {
         return Pager(
             config = PagingConfig(
-                pageSize = pageSize,
-                enablePlaceholders = enablePlaceholders,
-                prefetchDistance = prefetchDistance,
-                initialLoadSize = initialLoadSize,
-                maxSize = maxCacheSize
+                pageSize = 20,
+                enablePlaceholders = false,
+                prefetchDistance = 10,
+                initialLoadSize = 20,
+                maxSize = 200
             ),
-            pagingSourceFactory = {
-                GamesPagingSource(repository = this)
-            }
+            pagingSourceFactory = { GamesPagingSource(apiService) }
         ).flow
     }
 
